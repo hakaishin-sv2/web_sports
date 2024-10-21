@@ -25,14 +25,14 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository){
         return args -> {
-            if (userRepository.findByUsername("admin").isEmpty()){
+            if (userRepository.findByGmail("admin@gmail.com").isEmpty()){
                 var roles = new HashSet<String>();
                 roles.add(Role.ADMIN.name());
 
                 User user = User.builder()
-                        .username("admin")
+                        .gmail("admin@gmail.com")
                         .password(passwordEncoder.encode("admin"))
-                        // .roles(roles)
+                        //.roles(roles)
                         .build();
 
                 userRepository.save(user);

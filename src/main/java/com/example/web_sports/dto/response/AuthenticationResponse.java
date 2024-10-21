@@ -1,7 +1,10 @@
 package com.example.web_sports.dto.response;
 
+import com.example.web_sports.entity.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -11,4 +14,5 @@ import lombok.experimental.FieldDefaults;
 public class AuthenticationResponse {
     String token;
     boolean authenticated;
+    Set<Role> roles;
 }

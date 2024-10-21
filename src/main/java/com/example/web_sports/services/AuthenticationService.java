@@ -66,7 +66,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        var user = userRepository.findByUsername(request.getUsername())
+        var user = userRepository.findByGmail(request.getGmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(),
@@ -79,6 +79,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(token)
+                .roles(user.getRoles())
                 .authenticated(true)
                 .build();
     }
@@ -113,7 +114,7 @@ public class AuthenticationService {
 
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
-        var user = userRepository.findByUsername(username).orElseThrow(
+        var user = userRepository.findByGmail(username).orElseThrow(
                 () -> new AppException(ErrorCode.UNAUTHENTICATED)
         );
 
@@ -129,7 +130,7 @@ public class AuthenticationService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
+                .subject(user.getGmail())
                 .issuer("devteria.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(

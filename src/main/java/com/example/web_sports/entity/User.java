@@ -21,16 +21,13 @@ public class User {
     Long id;
 
     @Column(nullable = false, unique = true)
-    String username;
+    String gmail;
 
     @Column(nullable = false)
     String password;
 
-    String firstname;
+    String full_name;
 
-    String lastname;
-
-    LocalDate dob;
 
     @ManyToMany
     @JoinTable(

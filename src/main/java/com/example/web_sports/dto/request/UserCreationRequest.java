@@ -13,13 +13,11 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
-    @Size(min = 3,message = "USERNAME_INVALID")
-    String username;
 
-    @Size(min = 8, message = "INVALID_PASSWORD")
+    String gmail;
+
+    @Size(min = 6, message = "INVALID_PASSWORD")
     String password;
-    String firstname;
-    String lastname;
-    LocalDate dob;
+    String full_name;
     List<String> roles;
 }
