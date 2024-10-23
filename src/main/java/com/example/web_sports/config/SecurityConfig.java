@@ -26,11 +26,17 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/users",
-            "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    private final String[] PUBLIC_ENDPOINTS = {
+            "/index", "/auth/introspect",
+            "/auth/logout", "/auth/refresh","roles",
+            "/api/user/login",
+            "/api/user",// đăng ký
     };
-    private final String[] PUBLIC_ENDPOINTS_GET = {"/users/index",
-
+    private final String[] PUBLIC_ENDPOINTS_GET = {
+            "/user/index",
+            "/index",
+            "/login",
+            "/register",
     };
 
     @Autowired
@@ -40,9 +46,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS_GET).permitAll()  // Public GET endpoints
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()     // Public POST endpoints
-                        .anyRequest().permitAll()
+                        .requestMatchers("/admin/**", "/client/**", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS_GET).permitAll() // Public GET endpoints
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()    // Public POST endpoints
+                        .anyRequest().authenticated() // Các yêu cầu khác cần xác thực
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwtConfigurer -> jwtConfigurer
@@ -51,10 +58,11 @@ public class SecurityConfig {
                         )
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 )
-                .csrf(AbstractHttpConfigurer::disable); // Disable CSRF as we're using token-based authentication
+                .csrf(AbstractHttpConfigurer::disable); // Disable CSRF vì đang sử dụng token-based authentication
 
         return httpSecurity.build();
     }
+
 
 
     @Bean

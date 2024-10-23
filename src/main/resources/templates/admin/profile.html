@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chỉ sử dụng một phiên bản jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Lấy userId từ URL
+            const urlParts = window.location.pathname.split('/');
+            const userId = urlParts[urlParts.length - 1]; // Lấy ID từ phần cuối cùng của URL
+
+            // Lấy token từ localStorage
+            var token = localStorage.getItem('token');
+            if (token) {
+                token = token.replace(/"/g, ''); // Loại bỏ dấu nháy kép khỏi token
+            }
+
+            // Gửi yêu cầu AJAX
+            $.ajax({
+                url: `/api/admin/profile/${userId}`,
+                method: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Gửi token trong header
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                    console.log(data);
+                    if (data.result) {
+                        const user = data.result;
+                        $('#userEmail').text(user.gmail);
+                        $('#userName').text(user.full_name);
+
+                        // Xử lý mảng vai trò và hiển thị chúng
+                        const roleBadges = user.roles.map(role => getRoleBadge(role.name)).join(' ');
+                        $('#userRole').html(roleBadges);
+
+                        $('#userImage').attr('src', user.img || 'default-profile.jpg'); // Thay đổi đường dẫn mặc định nếu cần
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var response = xhr.responseJSON;
+                    console.log(response);
+                    if (xhr.status === 401) {
+                        var response = xhr.responseJSON;
+                        console.log('Có lỗi xác thực:', response);
+                        alert('Lỗi xác thực: ' + response.message); // Hiển thị thông báo lỗi lên giao diện
+                    } else {
+                        console.log('Có lỗi xảy ra:', error);
+                        alert('Không thể lấy danh sách người dùng, vui lòng thử lại!');
+                    }
+                }
+            });
+
+            // Hàm trả về badge cho từng vai trò
+            function getRoleBadge(roleName) {
+                let badgeClass = '';
+                let roleText = '';
+
+                if (roleName === 'ADMIN') {
+                    badgeClass = 'badge-success';
+                    roleText = 'ADMIN';
+                } else if (roleName === 'USER') {
+                    badgeClass = 'badge-warning';
+                    roleText = 'USER';
+                } else if (roleName === 'EDITOR') {
+                    badgeClass = 'badge-primary';
+                    roleText = 'Người viết bài';
+                } else if (roleName === 'MODERATOR') {
+                    badgeClass = 'badge-secondary';
+                    roleText = 'Kiểm duyệt viên';
+                } else {
+                    badgeClass = 'badge-dark';
+                    roleText = 'Unknown';
+                }
+
+                return '<span class="badge ' + badgeClass + '">' + roleText + '</span>';
+            }
+        });
+
+    </script>
+</head>
+
+<body>
+<div class="container mt-5">
+    <div class="alert alert-success" style="display: none;">
+        <!-- Thông báo thành công sẽ được hiển thị ở đây -->
+    </div>
+
+    <h1 class="mb-4">Thông tin hồ sơ</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Thông tin cá nhân</h3>
+            <p><strong>Email:</strong> <span id="userEmail">example@example.com</span></p>
+            <p><strong>Họ và tên:</strong> <span id="userName">Nguyễn Văn A</span></p>
+            <p><strong>Vai trò:</strong>
+                <span id="userRole"></span>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Ảnh đại diện:</strong></p>
+            <img id="userImage" src="path/to/profile-picture.jpg" alt="Profile Picture" class="rounded-circle" style="width: 200px; height: 200px;">
+        </div>
+    </div>
+    <div class="mt-4">
+        <a href="#" id="editProfileBtn" class="btn btn-warning">Sửa hồ sơ</a>
+        <a href="/admin/user-manager" class="btn btn-primary">Trang chủ</a>
+        <a href="index.php?act=change-password" class="btn btn-primary">Đổi mật khẩu</a>
+    </div>
+</div>
+<script>
+    // Lấy ID từ URL
+    const urlPath = window.location.pathname;
+    const parts = urlPath.split('/');
+    const userId = parts[parts.length - 1];
+    if (!isNaN(userId) && userId.trim() !== "") {
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        editProfileBtn.href = `/admin/edit-profile/${userId}`;
+    } else {
+        // Nếu không phải là số, chuyển hướng về trang 404
+        window.location.href = '/admin/404';
+    }
+</script>
+</body>
+
+</html>

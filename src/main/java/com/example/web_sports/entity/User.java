@@ -14,20 +14,22 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     @Column(nullable = false, unique = true)
     String gmail;
-
     @Column(nullable = false)
     String password;
 
+    @Column(nullable = true)
     String full_name;
 
+    @Column(nullable = true)
+    String img;
 
     @ManyToMany
     @JoinTable(

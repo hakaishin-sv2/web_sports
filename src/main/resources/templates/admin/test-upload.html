@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tải lên ảnh</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    #preview {
+      margin-top: 10px;
+      display: none;
+    }
+    #preview img {
+      max-width: 300px; /* Đặt kích thước tối đa cho ảnh */
+      max-height: 300px; /* Đặt chiều cao tối đa cho ảnh */
+      border: 1px solid #ccc; /* Thêm viền cho ảnh */
+    }
+  </style>
+</head>
+<body>
+<h1>Tải lên ảnh</h1>
+<form id="uploadForm">
+  <label for="file">Chọn ảnh:</label>
+  <input type="file" id="file" name="file" accept="image/*" required>
+  <br><br>
+  <div id="preview">
+    <h3>Preview:</h3>
+    <img id="previewImg" src="" alt="Preview Image">
+  </div>
+  <br>
+  <button type="submit">Tải lên</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+  $(document).ready(function() {
+    $('#file').on('change', function() {
+      const file = this.files[0]; // Lấy file từ input
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        $('#previewImg').attr('src', e.target.result); // Đặt đường dẫn hình ảnh vào thẻ img
+        $('#preview').show(); // Hiển thị phần preview
+      }
+
+      if (file) {
+        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
+      } else {
+        $('#preview').hide(); // Ẩn preview nếu không có file
+      }
+    });
+
+    $('#uploadForm').on('submit', function(e) {
+      e.preventDefault(); // Ngăn chặn hành động gửi form mặc định
+
+      var formData = new FormData();
+      var file = $('#file')[0].files[0]; // Lấy file từ input
+      var folder = 'img_user'; // Thư mục cố định
+
+      formData.append('file', file); // Thêm file vào FormData
+      formData.append('folder', folder); // Thêm tên thư mục vào FormData
+
+      // Lấy token từ cookie hoặc localStorage (tuỳ theo cách bạn lưu trữ)
+      var token = localStorage.getItem('token'); // Hoặc document.cookie nếu bạn lưu trong cookie
+
+      $.ajax({
+        url: '/api/upload/uploadFile', // Đường dẫn đến API
+        type: 'POST',
+        data: formData,
+        contentType: false, // Để jQuery tự động set Content-Type
+        processData: false, // Ngăn jQuery xử lý dữ liệu
+        headers: {
+          'Authorization': 'Bearer ' + token // Gửi token trong header
+        },
+        success: function(response) {
+          console.log(response);
+          $('#result').html('<p>File đã được tải lên thành công: <a href="' + response + '" target="_blank">' + response + '</a></p>');
+
+          // Gọi API PUT sau khi tải lên thành công
+          updateUserProfile(response);
+        },
+        error: function(xhr, status, error) {
+          $('#result').html('<p>Lỗi: ' + xhr.responseText + '</p>');
+        }
+      });
+    });
+
+    function updateUserProfile(fileUrl) {
+      // Lấy userId từ URL
+      var userId = window.location.pathname.split('/').pop(); // Lấy ID người dùng từ URL
+
+      // Kiểm tra nếu userId không phải là số
+      if (isNaN(userId) || userId <= 0) {
+        window.location.href = '/admin/404'; // Điều hướng đến trang 404
+        return;
+      }
+
+      var token = localStorage.getItem('token'); // Hoặc document.cookie nếu bạn lưu trong cookie
+
+      // Dữ liệu để gửi cho API PUT
+      var data = {
+        profileImage: fileUrl // Gửi đường dẫn hình ảnh mới
+      };
+
+      $.ajax({
+        url: '/api/admin/user/' + userId,
+        type: 'PUT',
+        contentType: 'application/json', // Gửi dữ liệu dưới dạng JSON
+        data: JSON.stringify(data), // Chuyển đổi đối tượng thành JSON
+        headers: {
+          'Authorization': 'Bearer ' + token // Gửi token trong header
+        },
+        success: function(response) {   console.log(response);
+          $('#result').append('<p>Cập nhật người dùng thành công!</p>');
+        },
+        error: function(xhr, status, error) {
+          $('#result').append('<p>Lỗi khi cập nhật người dùng: ' + xhr.responseText + '</p>');
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

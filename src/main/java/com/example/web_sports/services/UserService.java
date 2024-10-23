@@ -1,7 +1,9 @@
 package com.example.web_sports.services;
 
+import com.example.web_sports.dto.request.AdminSetRoleRequest;
 import com.example.web_sports.dto.request.UserCreationRequest;
 import com.example.web_sports.dto.request.UserUpdateRequest;
+import com.example.web_sports.dto.response.ApiResponse;
 import com.example.web_sports.dto.response.UserResponse;
 import com.example.web_sports.entity.Role;
 import com.example.web_sports.entity.User;
@@ -61,10 +63,26 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+    public UserResponse updateUser(Long userId, AdminSetRoleRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        userMapper.toUpdateRole(user, request);
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+    public UserResponse userUpdate(Long userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userMapper.updateUser(user, request);
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        } else {
+            String password = user.getPassword();
+            user.setPassword(password);
+        }
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         var roles = roleRepository.findAllById(request.getRoles());
         user.setRoles(new HashSet<>(roles));
@@ -72,10 +90,34 @@ public class UserService {
 
     }
     // delete theo permission
-    @PreAuthorize("hasAuthority('DELETE_USERS')")
-    public void deleteUser(String userId){
-        userRepository.deleteById(userId);
+//    @PreAuthorize("hasAuthority('DELETE_USERS')")
+//    public void deleteUser(Long userId){
+//        userRepository.deleteById(userId);
+//    }
+    public ApiResponse<Void> deleteUser(Long userId) {
+        try {
+            if (!userRepository.existsById(userId)) {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+            userRepository.deleteById(userId);
+            return ApiResponse.<Void>builder()
+                    .message("Xóa người dùng thành công")
+                    .build();
+
+        } catch (AppException e) {
+            return ApiResponse.<Void>builder()
+                    .code(404) // Mã lỗi
+                    .message(e.getMessage())
+                    .build();
+
+        } catch (Exception e) {
+            return ApiResponse.<Void>builder()
+                    .code(500) // Mã lỗi nội bộ server
+                    .message("Đã xảy ra lỗi khi xóa người dùng")
+                    .build();
+        }
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers(){
@@ -85,9 +127,22 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public UserResponse getUser(String id){
+    public UserResponse getUserByid(Long id){
         log.info("In method get user by Id");
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
+
+//    public void saveFilePathToUser(String filePath) {
+//        Long userId = getCurrentUserId(); // Lấy ID người dùng hiện tại
+//
+//        // Tìm người dùng và cập nhật đường dẫn
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+//
+//        // Giả định bạn có một trường để lưu đường dẫn tệp
+//        user.setFilePath(filePath); // Cập nhật lại trường phù hợp với cấu trúc của bạn
+//        userRepository.save(user);
+//    }
+
 }

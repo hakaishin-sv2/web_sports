@@ -32,6 +32,7 @@
             <div class="col-xl-10 col-lg-12 col-md-9">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div id="error-message" style="display: none; color: red; font-weight: bold;"></div>
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -97,7 +98,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/admin/js/sb-admin-2.min.js"></script>
-    <script src="/admin/https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#form_login_user').submit(function (event) {
@@ -137,17 +138,30 @@
                                 window.location.href = '/admin/home';
                             } else if (roleName === 'USER') {
                                 window.location.href = '/index';
+                            }else if (roleName === 'EDITOR') {
+                                window.location.href = '/index';
+                            }else if (roleName === 'MODERATOR') {
+                                window.location.href = '/index';
                             }
                         }
                     },
                     error: function (xhr, status, error) {
-                        alert("Error creating user: " + xhr.responseText);
+                        // Hiển thị thông báo lỗi màu đỏ
+                        var errorMessage = "Error: " + xhr.responseText;
+                        $('#error-message').text(errorMessage).fadeIn();  // Hiển thị lỗi
+
+                        // Tự động ẩn thông báo sau 3 giây
+                        setTimeout(function () {
+                            $('#error-message').fadeOut();
+                        }, 3000);
+
                         console.log(xhr.responseText);
                     }
                 });
             });
         });
     </script>
+
 </body>
 
 </html>

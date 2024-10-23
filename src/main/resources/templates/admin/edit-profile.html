@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập nhật Hồ Sơ</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #imgPreview {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Cập nhật Hồ Sơ</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="full_name">Họ và tên:</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="img_user">Ảnh đại diện:</label>
+            <input type="file" class="form-control-file" id="img_user" name="img_user" accept="image/*">
+            <img id="imgPreview" src="" alt="Ảnh đại diện hiện tại" class="rounded-circle">
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật hồ sơ</button>
+        <a href="index.php?act=profile" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    const urlPath = window.location.pathname;
+    const parts = urlPath.split('/');
+    const userId = parts[parts.length - 1];
+
+    $(document).ready(function() {
+        const token = localStorage.getItem('token');
+        $.ajax({
+            url: `/api/admin/user/${userId}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            success: function(response) {
+                console.log(response);
+                $('#full_name').val(response.result.full_name);
+                $('#email').val(response.result.gmail);
+                $('#imgPreview').attr('src', response.result.img).show();
+            },
+            error: function(xhr) {
+                console.error('Có lỗi xảy ra:', xhr);
+                alert('Không thể tải thông tin người dùng.');
+            }
+        });
+    });
+
+    document.getElementById('img_user').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const imgPreview = document.getElementById('imgPreview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgPreview.src = e.target.result;
+                imgPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imgPreview.style.display = 'none';
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

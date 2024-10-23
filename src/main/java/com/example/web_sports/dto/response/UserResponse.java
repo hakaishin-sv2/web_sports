@@ -17,5 +17,6 @@ public class UserResponse {
     String id;
     String gmail;
     String full_name;
+    String img;
     Set<RoleResponse> roles;
 }

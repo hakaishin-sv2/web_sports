@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Nhiều File</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #previewContainer {
+            margin-top: 10px;
+        }
+        .previewImg {
+            width: 100px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Upload Nhiều File</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" id="files" name="files" multiple required />
+    <div id="previewContainer"></div>
+    <button type="submit">Tải lên</button>
+</form>
+<div id="result"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#files').on('change', function() {
+            const files = this.files; // Lấy tất cả các file từ input
+            $('#previewContainer').empty(); // Xóa các preview cũ
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#previewContainer').append('<img src="' + e.target.result + '" class="previewImg" />');
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
+                }
+            });
+        });
+
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault(); // Ngăn chặn hành động gửi form mặc định
+
+            var formData = new FormData();
+            var files = $('#files')[0].files; // Lấy tất cả file từ input
+            var folder = 'img_user'; // Thư mục cố định
+
+            Array.from(files).forEach(file => {
+                formData.append('files', file); // Thêm từng file vào FormData
+            });
+            formData.append('folder', folder); // Thêm tên thư mục vào FormData
+
+            // Lấy token từ cookie hoặc localStorage
+            var token = localStorage.getItem('token'); // Hoặc document.cookie nếu bạn lưu trong cookie
+
+            $.ajax({
+                url: '/api/upload/uploadMultipleFiles', // Đường dẫn đến API upload nhiều file
+                type: 'POST',
+                data: formData,
+                contentType: false, // Để jQuery tự động set Content-Type
+                processData: false, // Ngăn jQuery xử lý dữ liệu
+                headers: {
+                    'Authorization': 'Bearer ' + token // Gửi token trong header
+                },
+                success: function(response) {
+                    $('#result').html('<p>Files đã được tải lên thành công!</br></br>');
+                    console.log(response);
+                    response.forEach(fileUrl => {
+                        $('#result').append('<a href="' + fileUrl + '" target="_blank">' + fileUrl + '</a><br/>');
+                        updateUserProfile(fileUrl); // Cập nhật người dùng cho từng file URL
+                    });
+                },
+                error: function(xhr, status, error) {
+                    $('#result').html('<p>Lỗi: ' + xhr.responseText + '</p>');
+                }
+            });
+        });
+
+        function updateUserProfile(fileUrl) {
+            // Lấy userId từ URL
+            var userId = window.location.pathname.split('/').pop(); // Lấy ID người dùng từ URL
+
+            // Kiểm tra nếu userId không phải là số
+            if (isNaN(userId) || userId <= 0) {
+                window.location.href = '/admin/404'; // Điều hướng đến trang 404
+                return;
+            }
+
+            var token = localStorage.getItem('token'); // Hoặc document.cookie nếu bạn lưu trong cookie
+
+            // Dữ liệu để gửi cho API PUT
+            var data = {
+                profileImage: fileUrl // Gửi đường dẫn hình ảnh mới
+            };
+
+            $.ajax({
+                url: '/api/admin/user/' + userId,
+                type: 'PUT',
+                contentType: 'application/json', // Gửi dữ liệu dưới dạng JSON
+                data: JSON.stringify(data), // Chuyển đổi đối tượng thành JSON
+                headers: {
+                    'Authorization': 'Bearer ' + token // Gửi token trong header
+                },
+                success: function(response) {
+                    $('#result').append('<p>Cập nhật người dùng thành công cho hình ảnh: ' + fileUrl + '</p>');
+                },
+                error: function(xhr, status, error) {
+                    $('#result').append('<p>Lỗi khi cập nhật người dùng: ' + xhr.responseText + '</p>');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

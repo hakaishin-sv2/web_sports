@@ -24,8 +24,11 @@ import java.util.List;
 @Slf4j
 public class UserController {
     UserService userService;
-
-    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
+    @RequestMapping(value = {"/index","/"}, method = RequestMethod.GET)
     public String index(Model model) {
 //        List<UserResponse> users = userService.getAllUsers();
 //        model.addAttribute("users", users);
@@ -41,11 +44,16 @@ public class UserController {
         log.info("Navigating to create user form page");
         return "user/login";
     }
-    @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.createUser(request))
-                .build();
+//    @PostMapping
+//    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
+//        return ApiResponse.<UserResponse>builder()
+//                .result(userService.createUser(request))
+//                .build();
+//    }
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        //log.info("Navigating to create user form page");
+        return "user/login";
     }
 
 //    @GetMapping

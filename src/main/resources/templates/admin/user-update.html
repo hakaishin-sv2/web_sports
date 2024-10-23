@@ -164,7 +164,7 @@
                 <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Quản lý user:</h6>
-                        <a class="collapse-item" id="getalluser" href="/admin/user-manager">Danh sách user</a>
+                        <a class="collapse-item" id="getalluser" >Danh sách user</a>
                         <a class="collapse-item" id="add_user">Thêm mới user</a>
                     </div>
                 </div>
@@ -240,7 +240,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -448,329 +447,37 @@
                 <!-- Begin Page Content -->
                 <!-- phần conten -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <h1 class="h3 mb-4 text-gray-800">Update User</h1>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Chi tiết user</h6>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
+                        <div class="card-body">
+                            <form action="" method="POST">
+                                <div class="mb-3 mt-3">
+                                    <label for="full_name" class="form-lable">Full Name: </label>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" value="">
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="gmail" class="form-lable">Email: </label>
+                                    <input type="email" class="form-control" id="gmail" name="gmail" value="">
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
+<!--                                <div class="mb-3 mt-3">-->
+<!--                                    <label for="password" class="form-lable">Password: </label>-->
+<!--                                    <input type="password" class="form-control" id="password" name="password" value="">-->
+<!--                                </div>-->
+                                <div class="mb-3 mt-3">
+                                    <label for="role" class="form-lable">Vai trò: </label>
+                                    <select name="role" id="role" class="form-control">
+                                        <option value="ADMIN">Admin</option>
+                                        <option value="USER">User</option>
+                                        <option value="MODERATOR">Người Kiểm duyệt</option>
+                                        <option value="EDITOR">Người post bài</option>
+                                    </select>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span
-                                            class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span
-                                            class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span
-                                            class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span
-                                            class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="/admin/img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
-
+                                <button type="submit" class="btn btn-primary" id="update_user">Update mới</button>
+                            </form>
                         </div>
                     </div>
 
@@ -832,47 +539,87 @@
     <script src="/admin/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+
 
     <!-- Page level custom scripts -->
-    <script src="/admin/js/demo/chart-area-demo.js"></script>
-    <script src="/admin/js/demo/chart-pie-demo.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $('#getalluser').on('click', function(e) {-->
-<!--                e.preventDefault();  // Ngăn không cho trình duyệt điều hướng trang-->
+    <script>
+        $(document).ready(function() {
+            // // Lấy ID từ URL
+            const urlParts = window.location.pathname.split('/');
+            const userId = urlParts[urlParts.length - 1];
+            //
+            // Gọi API để lấy thông tin người dùng
+            $.ajax({
+                url: '/api/admin/user/' + userId,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'), // Nếu cần token
+                    'Content-Type': 'application/json'
+                },
+                success: function(response) {
+                    // Xử lý dữ liệu thành công
+                    console.log(response);
+                    if (response && response.result) {
+                        const user = response.result;
+                        $('#full_name').val(user.full_name);
+                        $('#gmail').val(user.gmail);
+                        $('#password').val(user.password);
+                        // Cập nhật giá trị cho select
+                        if (user.roles.length > 0) {
+                            const userRole = user.roles[0].name; // Lấy tên vai trò đầu tiên
+                            $('#role').val(userRole); // Chọn vai trò tương ứng
+                        }
+                    } else {
+                        alert('Không tìm thấy thông tin người dùng.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // alert('Có lỗi xảy ra: ' + error);
+                    alert('Không tìm thấy thông tin người dùng.');
+                    window.location.href = '/admin/404';
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#update_user').click(function(event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của nút submit
 
-<!--                // Lấy token từ localStorage-->
-<!--                var token = localStorage.getItem('token');-->
+                // Lấy ID từ URL
+                const urlParts = window.location.pathname.split('/');
+                const userId = urlParts[urlParts.length - 1];
 
-<!--                // Loại bỏ dấu ngoặc kép nếu có-->
-<!--                token = token.replace(/"/g, '');-->
+                // Tạo đối tượng request từ dữ liệu trong form
+                const requestData = {
+                    full_name: $('#full_name').val(),
+                    gmail: $('#gmail').val(),
+                    password: $('#password').val(), // Thêm trường mật khẩu vào request
+                    roles: [$('#role').val()] // Đảm bảo rằng roles là một mảng
+                };
 
-<!--                // Gọi API qua AJAX với token trong Authorization header-->
-<!--                $.ajax({-->
-<!--                    url: '/api/admin/list-users',-->
-<!--                    type: 'GET',  // Phương thức HTTP-->
-<!--                    headers: {-->
-<!--                        'Authorization': 'Bearer ' + token,-->
-<!--                        'Content-Type': 'application/json'-->
-<!--                    },-->
-<!--                    success: function(response) {-->
-<!--                        // Xử lý thành công-->
-<!--                        console.log('Danh sách người dùng:', response);-->
-<!--                        alert('Lấy danh sách người dùng thành công!');-->
+                $.ajax({
+                    url: '/api/admin/user/' + userId,
+                    type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(requestData),
+                    success: function(response) {
+                        alert(response.message); // Hiển thị thông báo thành công
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error details:', xhr.responseText); // Log chi tiết lỗi
+                        alert('Có lỗi xảy ra: ' + error);
+                    }
+                });
+            });
+        });
 
-<!--                        // Bạn có thể thêm xử lý để hiển thị danh sách người dùng trên trang-->
-<!--                    },-->
-<!--                    error: function(xhr, status, error) {-->
-<!--                        // Xử lý lỗi-->
-<!--                        console.log('Có lỗi xảy ra:', error);-->
-<!--                        alert('Không thể lấy danh sách người dùng, vui lòng thử lại!');-->
-<!--                    }-->
-<!--                });-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
+    </script>
+
 
 </body>
 
