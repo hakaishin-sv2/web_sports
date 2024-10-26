@@ -33,6 +33,7 @@
                     console.log(data);
                     if (data.result) {
                         const user = data.result;
+                        console.log(user.img);
                         $('#userEmail').text(user.gmail);
                         $('#userName').text(user.full_name);
 
@@ -105,7 +106,7 @@
         </div>
         <div class="col-md-6">
             <p><strong>Ảnh đại diện:</strong></p>
-            <img id="userImage" src="path/to/profile-picture.jpg" alt="Profile Picture" class="rounded-circle" style="width: 200px; height: 200px;">
+            <img id="userImage" src="" alt="Profile Picture" class="rounded-circle" style="width: 200px; height: 200px;">
         </div>
     </div>
     <div class="mt-4">
@@ -124,7 +125,7 @@
         editProfileBtn.href = `/admin/edit-profile/${userId}`;
     } else {
         // Nếu không phải là số, chuyển hướng về trang 404
-        window.location.href = '/admin/404';
+        window.location.href = '../../static/adm/404';
     }
 </script>
 </body>

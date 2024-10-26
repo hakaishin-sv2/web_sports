@@ -1,6 +1,5 @@
 package com.example.web_sports.services;
 
-import com.example.web_sports.dto.request.AdminSetRoleRequest;
 import com.example.web_sports.dto.request.UserCreationRequest;
 import com.example.web_sports.dto.request.UserUpdateRequest;
 import com.example.web_sports.dto.response.ApiResponse;
@@ -63,14 +62,16 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public UserResponse updateUser(Long userId, AdminSetRoleRequest request) {
+    public UserResponse updateUser(Long userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        userMapper.toUpdateRole(user, request);
-        var roles = roleRepository.findAllById(request.getRoles());
-        user.setRoles(new HashSet<>(roles));
-
+        userMapper.convertToEntity(request);
+        if(request.getRoles() != null) {
+            var roles = roleRepository.findAllById(request.getRoles());
+            user.setRoles(new HashSet<>(roles));
+        }
+        user.setImg(request.getImg());
         return userMapper.toUserResponse(userRepository.save(user));
     }
     public UserResponse userUpdate(Long userId, UserUpdateRequest request) {

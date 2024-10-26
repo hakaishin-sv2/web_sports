@@ -1,6 +1,5 @@
 package com.example.web_sports.mapper;
 
-import com.example.web_sports.dto.request.AdminSetRoleRequest;
 import com.example.web_sports.dto.request.UserCreationRequest;
 import com.example.web_sports.dto.request.UserUpdateRequest;
 import com.example.web_sports.dto.response.UserResponse;
@@ -28,7 +27,12 @@ public class UserMapper {
     public void updateUser(User user, UserUpdateRequest request) {
         modelMapper.map(request, user);
     }
-    public void toUpdateRole(User user, AdminSetRoleRequest request) {
-        modelMapper.map(request, user);
+
+    public User convertToEntity (UserUpdateRequest dto){
+        User result = modelMapper.map(dto, User.class);
+        return result;
     }
+
+
+
 }

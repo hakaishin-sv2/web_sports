@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/upload")
 public class UploadApi {
 
-    private final String UPLOAD_DIR = "src/main/resources/uploads/";
+    private final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
@@ -38,7 +38,7 @@ public class UploadApi {
             Files.copy(file.getInputStream(), filePath);
 
             // Trả về đường dẫn tệp đã upload (không bao gồm src/main/resources/)
-            String fileUrl = "uploads/" + folder + "/" + uniqueFileName;
+            String fileUrl = "/uploads/" + folder + "/" + uniqueFileName;
             return ResponseEntity.ok(fileUrl); // Trả về đường dẫn tệp
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -66,7 +66,7 @@ public class UploadApi {
                 Files.copy(file.getInputStream(), filePath);
 
                 // Lưu đường dẫn vào danh sách (không bao gồm src/main/resources/)
-                String fileUrl = "uploads/" + folder + "/" + uniqueFileName;
+                String fileUrl = "/uploads/" + folder + "/" + uniqueFileName;
                 fileUrls.add(fileUrl);
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,6 +1,6 @@
 package com.example.web_sports.api.admin;
 
-import com.example.web_sports.dto.request.AdminSetRoleRequest;
+
 import com.example.web_sports.dto.request.TokenRequest;
 import com.example.web_sports.dto.request.UserCreationRequest;
 import com.example.web_sports.dto.request.UserUpdateRequest;
@@ -54,7 +54,7 @@ public class AdminApi {
                 .build();
     }
     @PutMapping("/user/{id}")
-    public ApiResponse<UserResponse> updateRoles(@PathVariable Long id, @RequestBody AdminSetRoleRequest request) {
+    public ApiResponse<UserResponse> updateRoles(@PathVariable Long id, @RequestBody UserUpdateRequest request) {
         UserResponse user = userService.updateUser(id, request);
         return ApiResponse.<UserResponse>builder()
                 .result(user)
